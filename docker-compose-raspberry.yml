@@ -1,6 +1,6 @@
 services:
   app:
-    platform: linux/amd64
+    platform: linux/arm64
     image: serjaobatista/mysite:latest # Você pode substituir por sua imagem personalizada ou "build" se tiver um Dockerfile
     container_name: app
     build:
@@ -30,7 +30,7 @@ services:
       - default
 
   db:
-    platform: linux/amd64
+    platform: linux/arm64
     image: postgres:15
     container_name: db
     environment:

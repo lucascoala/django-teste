@@ -1,5 +1,5 @@
 # 1º Estágio: Builder do backend Django + virtualenv
-FROM arm64v8/python:3.11-slim AS builder
+FROM python:3.11-slim AS builder
 
 WORKDIR /app
 
@@ -43,7 +43,7 @@ COPY ./static ./static
 # RUN npm run build  # ativar se houver etapa de build
 
 # 3º Estágio: Container final
-FROM arm64v8/python:3.11-slim
+FROM python:3.11-slim
 
 WORKDIR /app
 
