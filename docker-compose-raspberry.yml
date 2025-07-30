@@ -4,8 +4,8 @@ services:
     image: serjaobatista/mysite:latest # Você pode substituir por sua imagem personalizada ou "build" se tiver um Dockerfile
     container_name: app
     build:
-      context: ./Dockerfile.raspberry
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile.raspberry
     env_file: 
       - .env
     ports:
