@@ -52,7 +52,6 @@ ENV PYTHONUNBUFFERED=1 \
 
 # Instalar dependências nativas mínimas e dependências do WeasyPrint
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    default-libmysqlclient-dev \
     curl \
     netcat-traditional \
     libcairo2 \
