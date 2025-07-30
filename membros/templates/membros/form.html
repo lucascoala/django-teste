@@ -1,0 +1,113 @@
+{% extends 'paginas/modelo.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+
+{% block conteudo %}
+
+
+<h2>{{ titulo }}</h2>
+<p>Preencha todos os campos obrigatórios.</p>
+<hr>
+
+<form action="" method="POST">
+
+    {% csrf_token %}
+
+
+    {{ form|crispy }}
+    
+    <!-- Adiciona um indicador de carregamento para o CEP -->
+    <div id="cep-loading" style="display:none; position:relative; margin-top:-60px; margin-bottom:40px; text-align:right;">
+        <span class="text-primary">Buscando endereço...</span>
+        <div class="spinner-border spinner-border-sm text-primary" role="status">
+            <span class="sr-only">Carregando...</span>
+        </div>
+    </div>
+
+    <a href="{% url 'listar-membros' %}" class="btn btn-danger float-left">Cancelar</a>
+    <button class="btn btn-success float-right" type="submit">{{ botao }}</button>
+
+
+</form>
+
+{% endblock %}
+
+
+
+
+{% block scripts %}
+
+<script src="{% static 'js/jquery.mask.min.js' %}"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#id_data_nascimento').mask('00/00/0000', { placeholder: "__/__/____" });
+        $('#id_data_batismo').mask('00/00/0000', { placeholder: "__/__/____" });
+        $('#id_data_casamento').mask('00/00/0000', { placeholder: "__/__/____" });
+        $('#id_cep').mask('00000-000', { placeholder: "_____-___" });
+
+        // Add validation messages for date fields
+        $('input[type="text"][id^="id_data_"]').on('change', function() {
+            var value = $(this).val();
+            if (value && !/^\d{2}\/\d{2}\/\d{4}$/.test(value)) {
+                $(this).addClass('is-invalid');
+                $(this).next('.invalid-feedback').remove();
+                $(this).after('<div class="invalid-feedback">Digite uma data válida no formato dd/mm/yyyy</div>');
+            } else {
+                $(this).removeClass('is-invalid');
+                $(this).next('.invalid-feedback').remove();
+            }
+        });
+
+        // Função para buscar endereço pelo CEP
+        $('#id_cep').on('blur', function() {
+            var cep = $(this).val().replace(/\D/g, '');
+            if (cep.length === 8) {
+                // Limpa os campos de endereço
+                $('#id_endereco').val('');
+                $('#id_bairro').val('');
+                $('#id_cidade').val('');
+                $('#id_estado').val('');
+                
+                // Mostra indicador de carregamento
+                $('#cep-loading').show();
+                
+                // Consulta a API ViaCEP
+                $.getJSON('https://viacep.com.br/ws/'+ cep +'/json/', function(data) {
+                    // Esconde indicador de carregamento
+                    $('#cep-loading').hide();
+                    
+                    if (!data.erro) {
+                        $('#id_endereco').val(data.logradouro);
+                        $('#id_bairro').val(data.bairro);
+                        $('#id_cidade').val(data.localidade);
+                        $('#id_estado').val(data.uf);
+                        $('#id_numero').focus();
+                    } else {
+                        alert('CEP não encontrado. Por favor, preencha o endereço manualmente.');
+                    }
+                }).fail(function() {
+                    // Esconde indicador de carregamento
+                    $('#cep-loading').hide();
+                    alert('Erro ao buscar o CEP. Verifique sua conexão ou preencha o endereço manualmente.');
+                });
+            }
+        });
+
+        var SPMaskBehavior = function (val) {
+            return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+        },
+            spOptions = {
+                onKeyPress: function (val, e, field, options) {
+                    field.mask(SPMaskBehavior.apply({}, arguments), options);
+                }
+            };
+
+        $('#id_telefone').mask(SPMaskBehavior, spOptions);
+    });
+</script>
+
+{% endblock %}

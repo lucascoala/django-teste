@@ -1,0 +1,50 @@
+{% extends 'paginas/modelo.html' %}
+
+{% load static %}
+
+{% block conteudo %}
+    <h2>Dados da célula</h2>
+    <p>Mais detalhes sobre a célula do dia <strong>{{celulas.dia_semana}}</strong>.</p>
+    <hr>
+
+    <form>
+            <div class="form-group">
+              <label for="formGroupExampleInput2">Líder</label>
+              <input type="text" class="form-control" id="formGroupExampleInput2" value="{{celulas.lider}}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput3">Local</label>
+                <input type="text" class="form-control" id="formGroupExampleInput3" value="{{celulas.local}}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="inputForm2">Data</label>
+                <input type="data" class="form-control" id="inputForm2" value="{{celulas.dia_semana}}" readonly>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputQM">Quantidade de membros</label>
+                    <input type="text" class="form-control" id="inputQM" value="{{ celulas.quant_membros }}" readonly>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputQV">Quantidade de visitantes</label>
+                    <input type="text" class="form-control" id="inputQV" value="{{ celulas.quant_visitantes }}" readonly>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputform">Horário que começou</label>
+                    <input type="time" class="form-control" id="inputform" value="{{celulas.hora_incio }}" readonly>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputPassword4">Horário que terminou</label>
+                    <input type="time" class="form-control" id="inputPassword4" value="{{celulas.hora_fim}}" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput2">Descrição</label>
+                <input type="text-area" class="form-control" id="formGroupExampleInput2" value="{{celulas.descricao}}" readonly>
+            </div>
+        <a href="{% url 'listar-celulas' %}" class="btn btn-danger float-right">Voltar</a>
+    </form>
+
+{% endblock %}

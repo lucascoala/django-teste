@@ -1,0 +1,44 @@
+{% extends 'paginas/modelo.html' %}
+
+{% load static %}
+
+{% block conteudo %}
+    <h2>Dados do sala</h2>
+    <p>Mais detalhes sobre a aula na sala <strong>{{salas.tipo}}</strong> do dia <strong>{{salas.data}}</strong>.</p>
+    <hr>
+
+    <form>
+            <div class="form-group">
+              <label for="formGroupExampleInput">Professor</label>
+              <input type="text" class="form-control" value="{{salas.professor}}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput3">Data</label>
+                <input type="data" class="form-control" id="formGroupExampleInput3" value="{{salas.data}}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput2">Tipo</label>
+                <input type="text-area" class="form-control" id="formGroupExampleInput2" value="{{salas.tipo}}" readonly>
+            </div>
+            <div class="form-group">
+              <label for="formGroupExampleIn">Descrição</label>
+              <input type="text-area" class="form-control" id="formGroupExampleIn" value="{{salas.descricao}}" readonly>
+            </div>
+            <div class="form-group">
+              <label>Alunos</label>
+              <div class="form-control" style="height: auto;">
+                {% for aluno in salas.alunos.all %}
+                  <div>{{ aluno.nome }}</div>
+                {% empty %}
+                  <div>Nenhum aluno selecionado</div>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="formGroupExampleI">Presença</label>
+              <input type="text-area" class="form-control" id="formGroupExampleI" value="{{salas.presenca}}" readonly>
+            </div>
+        <a href="{% url 'listar-salas' %}" class="btn btn-danger float-right">Voltar</a>
+    </form>
+
+{% endblock %}

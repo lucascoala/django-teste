@@ -1,0 +1,123 @@
+{% extends 'paginas/modelo.html' %}
+
+{% block conteudo %}
+<div class="container">
+    <h2 class="text-center mb-4">Termos de Uso</h2>
+    
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h4>Introdução</h4>
+        </div>
+        <div class="card-body">
+            <p>Bem-vindo ao Sistema Integrado da Igreja Presbiteriana do Primavera. Ao acessar e utilizar este sistema, você concorda com os termos e condições descritos neste documento. Por favor, leia atentamente.</p>
+        </div>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h4>Aceitação dos Termos</h4>
+        </div>
+        <div class="card-body">
+            <p>Ao utilizar o Sistema Integrado da Igreja Presbiteriana do Primavera, você confirma que leu, entendeu e concorda com estes Termos de Uso e com nossa Política de Privacidade. Se você não concordar com qualquer parte destes termos, solicitamos que não utilize o sistema.</p>
+        </div>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h4>Uso do Sistema</h4>
+        </div>
+        <div class="card-body">
+            <p>O Sistema Integrado da Igreja Presbiteriana do Primavera é destinado exclusivamente para:</p>
+            <ul>
+                <li>Membros registrados da igreja</li>
+                <li>Líderes e administradores autorizados</li>
+                <li>Visitantes que consentiram com o registro de seus dados</li>
+            </ul>
+            <p>Você concorda em:</p>
+            <ul>
+                <li>Fornecer informações precisas e atualizadas</li>
+                <li>Manter a confidencialidade de sua senha e conta</li>
+                <li>Não compartilhar seu acesso com terceiros</li>
+                <li>Utilizar o sistema apenas para os fins a que se destina</li>
+                <li>Não realizar atividades que possam prejudicar o funcionamento do sistema</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h4>Propriedade Intelectual</h4>
+        </div>
+        <div class="card-body">
+            <p>Todo o conteúdo disponibilizado no sistema, incluindo textos, gráficos, logotipos, ícones, imagens, arquivos de áudio e vídeo, é de propriedade da Igreja Presbiteriana do Primavera ou de seus fornecedores e está protegido pelas leis de propriedade intelectual aplicáveis.</p>
+            <p>Você não está autorizado a:</p>
+            <ul>
+                <li>Modificar, copiar, distribuir, transmitir, exibir, publicar, vender ou licenciar qualquer conteúdo do sistema</li>
+                <li>Criar trabalhos derivados baseados no conteúdo do sistema</li>
+                <li>Utilizar o conteúdo para fins comerciais sem autorização prévia</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h4>Proteção de Dados</h4>
+        </div>
+        <div class="card-body">
+            <p>O tratamento de dados pessoais no sistema é regido pela nossa Política de Privacidade, em conformidade com a Lei Geral de Proteção de Dados Pessoais (LGPD - Lei nº 13.709/2018).</p>
+            <p>Ao utilizar o sistema, você consente com a coleta, armazenamento, uso e compartilhamento de seus dados pessoais conforme descrito na Política de Privacidade.</p>
+            <p>Você pode revogar seu consentimento a qualquer momento, conforme detalhado na Política de Privacidade.</p>
+        </div>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h4>Limitação de Responsabilidade</h4>
+        </div>
+        <div class="card-body">
+            <p>A Igreja Presbiteriana do Primavera se esforça para manter o sistema funcionando adequadamente, mas não garante que:</p>
+            <ul>
+                <li>O sistema estará disponível ininterruptamente</li>
+                <li>O sistema estará livre de erros ou falhas</li>
+                <li>Os defeitos serão corrigidos imediatamente</li>
+            </ul>
+            <p>A Igreja Presbiteriana do Primavera não será responsável por danos indiretos, incidentais, especiais, consequenciais ou punitivos resultantes do uso ou incapacidade de usar o sistema.</p>
+        </div>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h4>Modificações nos Termos</h4>
+        </div>
+        <div class="card-body">
+            <p>A Igreja Presbiteriana do Primavera reserva-se o direito de modificar estes Termos de Uso a qualquer momento. As alterações entrarão em vigor imediatamente após sua publicação no sistema.</p>
+            <p>O uso contínuo do sistema após a publicação das alterações constitui aceitação dos novos termos.</p>
+        </div>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h4>Lei Aplicável</h4>
+        </div>
+        <div class="card-body">
+            <p>Estes Termos de Uso são regidos pelas leis da República Federativa do Brasil.</p>
+            <p>Qualquer disputa decorrente destes termos será submetida à jurisdição exclusiva dos tribunais brasileiros.</p>
+        </div>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h4>Contato</h4>
+        </div>
+        <div class="card-body">
+            <p>Se você tiver dúvidas ou preocupações sobre estes Termos de Uso, entre em contato conosco:</p>
+            <p>E-mail: <a href="mailto:contato@igrejaprimavera.org">contato@igrejaprimavera.org</a><br>
+            Telefone: (XX) XXXX-XXXX</p>
+        </div>
+    </div>
+    
+    <div class="text-center mb-4">
+        <a href="{% url 'index' %}" class="btn btn-secondary">Voltar para a página inicial</a>
+    </div>
+</div>
+{% endblock %}

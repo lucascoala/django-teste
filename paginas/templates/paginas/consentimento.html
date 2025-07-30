@@ -1,0 +1,123 @@
+{% extends 'paginas/modelo.html' %}
+
+{% block conteudo %}
+<div class="container">
+    <h2 class="text-center mb-4">Termo de Consentimento para Tratamento de Dados Pessoais</h2>
+    
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h4>Consentimento para Tratamento de Dados</h4>
+        </div>
+        <div class="card-body">
+            <p>De acordo com a Lei Geral de Proteção de Dados Pessoais (LGPD - Lei nº 13.709/2018), solicitamos seu consentimento para coletar e processar seus dados pessoais.</p>
+            
+            <form method="post" action="{% url 'salvar-consentimento' %}" class="mt-4">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="nome">Nome completo:</label>
+                    <input type="text" class="form-control" id="nome" name="nome" required>
+                </div>
+                
+                <div class="form-group mt-3">
+                    <label>Finalidades do tratamento de dados:</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="finalidade_administrativa" name="finalidades[]" value="administrativa" required>
+                        <label class="form-check-label" for="finalidade_administrativa">
+                            Gestão administrativa da igreja (obrigatório)
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="finalidade_comunicacao" name="finalidades[]" value="comunicacao">
+                        <label class="form-check-label" for="finalidade_comunicacao">
+                            Comunicação e envio de informações sobre atividades e eventos
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="finalidade_celulas" name="finalidades[]" value="celulas">
+                        <label class="form-check-label" for="finalidade_celulas">
+                            Organização de células e grupos
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="finalidade_financeiro" name="finalidades[]" value="financeiro">
+                        <label class="form-check-label" for="finalidade_financeiro">
+                            Registro de contribuições e despesas
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group mt-3">
+                    <label>Categorias de dados pessoais:</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="dados_identificacao" name="categorias[]" value="identificacao" required>
+                        <label class="form-check-label" for="dados_identificacao">
+                            Dados de identificação (nome, data de nascimento, estado civil) (obrigatório)
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="dados_contato" name="categorias[]" value="contato">
+                        <label class="form-check-label" for="dados_contato">
+                            Dados de contato (endereço, telefone, e-mail)
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="dados_religiosos" name="categorias[]" value="religiosos">
+                        <label class="form-check-label" for="dados_religiosos">
+                            Dados religiosos (data de batismo, data de recebimento)
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="dados_profissionais" name="categorias[]" value="profissionais">
+                        <label class="form-check-label" for="dados_profissionais">
+                            Dados profissionais (profissão, escolaridade)
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="dados_familiares" name="categorias[]" value="familiares">
+                        <label class="form-check-label" for="dados_familiares">
+                            Dados familiares (data de casamento, informações sobre filhos)
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group mt-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="concordo_politica" name="concordo_politica" required>
+                        <label class="form-check-label" for="concordo_politica">
+                            Li e concordo com a <a href="{% url 'politica-privacidade' %}" target="_blank">Política de Privacidade</a>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group mt-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="concordo_termos" name="concordo_termos" required>
+                        <label class="form-check-label" for="concordo_termos">
+                            Li e concordo com os <a href="{% url 'termos-uso' %}" target="_blank">Termos de Uso</a>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group mt-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="maior_idade" name="maior_idade" required>
+                        <label class="form-check-label" for="maior_idade">
+                            Declaro que sou maior de idade ou, se menor, estou devidamente autorizado por meu responsável legal
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info mt-4">
+                    <p><strong>Importante:</strong> Você pode revogar este consentimento a qualquer momento entrando em contato com nosso Encarregado de Proteção de Dados através do e-mail <a href="mailto:dpo@igrejaprimavera.org">dpo@igrejaprimavera.org</a>.</p>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary">Confirmar Consentimento</button>
+                    <a href="{% url 'index' %}" class="btn btn-secondary ml-2">Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

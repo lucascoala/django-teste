@@ -1,0 +1,143 @@
+{% extends 'paginas/modelo.html' %}
+{% load static %}
+
+{% block titulo %}
+    <title>Relatório de Despesas</title>
+    <link rel="stylesheet" href="{% static 'css/print.css' %}" media="print">
+{% endblock %}
+
+{% block conteudo %}
+<div class="container mt-3">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="card-title">Relatório de Despesas</h4>
+                <div class="d-print-none">
+                    <button onclick="window.print()" class="btn btn-primary">
+                        <i class="fa fa-print"></i> Imprimir
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <form method="get" class="row g-3 mb-4 d-print-none">
+                <div class="col-md-2">
+                    <label for="mes" class="form-label">Mês</label>
+                    <select name="mes" id="mes" class="form-select">
+                        <option value="">Todos</option>
+                        {% for m in meses %}
+                            <option value="{{ m.0 }}" {% if mes == m.0 %}selected{% endif %}>{{ m.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="ano" class="form-label">Ano</label>
+                    <select name="ano" id="ano" class="form-select">
+                        {% for a in anos %}
+                            <option value="{{ a }}" {% if ano == a %}selected{% endif %}>{{ a }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="categoria" class="form-label">Categoria</label>
+                    <select name="categoria" id="categoria" class="form-select">
+                        <option value="">Todas</option>
+                        {% for cat in categorias %}
+                            <option value="{{ cat.0 }}" {% if categoria == cat.0 %}selected{% endif %}>{{ cat.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="status" class="form-label">Status</label>
+                    <select name="status" id="status" class="form-select">
+                        <option value="">Todos</option>
+                        <option value="Pendente" {% if status == 'Pendente' %}selected{% endif %}>Pendente</option>
+                        <option value="Pago" {% if status == 'Pago' %}selected{% endif %}>Pago</option>
+                    </select>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+                </div>
+            </form>
+
+            <!-- Resumo -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <h5 class="card-title">Total de Despesas</h5>
+                            <p class="card-text h3">R$ {{ total_despesas|floatformat:2 }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Pago</h5>
+                            <p class="card-text h3">R$ {{ total_pagas|floatformat:2 }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-warning">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Pendente</h5>
+                            <p class="card-text h3">R$ {{ total_pendentes|floatformat:2 }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabela de Despesas -->
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Data Vencimento</th>
+                            <th>Descrição</th>
+                            <th>Categoria</th>
+                            <th>Tipo</th>
+                            <th>Valor</th>
+                            <th>Status</th>
+                            {% if object_list.0.data_pagamento %}
+                                <th>Data Pagamento</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for despesa in object_list %}
+                            <tr>
+                                <td>{{ despesa.data_vencimento|date:"d/m/Y" }}</td>
+                                <td>{{ despesa.descricao }}</td>
+                                <td>{{ despesa.get_clc_display }}</td>
+                                <td>{{ despesa.tipo }}</td>
+                                <td>R$ {{ despesa.valor|floatformat:2 }}</td>
+                                <td>
+                                    {% if despesa.status == 'Pago' %}
+                                        <span class="badge bg-success">Pago</span>
+                                    {% else %}
+                                        <span class="badge bg-warning">Pendente</span>
+                                    {% endif %}
+                                </td>
+                                {% if object_list.0.data_pagamento %}
+                                    <td>{{ despesa.data_pagamento|date:"d/m/Y"|default:"-" }}</td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Informações do Relatório -->
+            <div class="mt-4">
+                <p class="text-muted">
+                    Relatório gerado em {{ now|date:"d/m/Y H:i" }}<br>
+                    {% if mes and ano %}Período: {{ mes_nome }} de {{ ano }}{% endif %}
+                    {% if categoria %}| Categoria: {{ categoria_nome }}{% endif %}
+                    {% if status %}| Status: {{ status }}{% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

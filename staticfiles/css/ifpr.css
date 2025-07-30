@@ -1,0 +1,174 @@
+i {
+  color: #2b572b !important;
+}
+
+hr {
+  border-top: 3px solid #dff7df;
+}
+
+.icone {
+  color: #000000 !important;
+}
+
+.text-limit td {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bg-menu {
+  background-color: #dff7df;
+}
+
+.text-menu {
+  color: #007834;
+}
+
+.border-ifpr {
+  border-color: #007834;
+}
+.bg-ifpr-escuro {
+  background-color: #315c23;
+}
+
+.text-ifpr-escuro {
+  color: #315c23;
+}
+
+.border-ifpr-escuro {
+  border-color: #315c23;
+}
+
+.font-70 {
+  font-size: 70% !important;
+}
+
+.font-80 {
+  font-size: 89%;
+}
+
+.font-115 {
+  font-size: 115%;
+}
+
+.font-125 {
+  font-size: 125%;
+}
+
+.font-150 {
+  font-size: 150%;
+}
+
+.font-175 {
+  font-size: 175%;
+}
+
+table.dataTable.dtr-inline.collapsed
+  > tbody
+  > tr[role="row"]
+  > td:first-child::before,
+table.dataTable.dtr-inline.collapsed
+  > tbody
+  > tr[role="row"]
+  > th:first-child::before {
+  top: 15px !important;
+}
+
+.texto_rodape {
+  padding-top: 3%;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.rodape {
+  background-color: #dff7df;
+}
+
+.navbar {
+  padding: 15px !important;
+}
+
+.navbar a.nav-link {
+  color: #0d5131 !important;
+  font-weight: 600;
+}
+
+.navbar .nav-item {
+  padding: 3px 10px;
+}
+
+.navbar .nav-item:hover {
+  background-color: #b6fcb6;
+  border-radius: 13px;
+  transition: 2;
+}
+
+.dropdown-item:hover {
+  background-color: #b6fcb6;
+  transition: 2;
+}
+
+.navbar-dark .navbar-toggler {
+  background-color: #0d5131 !important;
+}
+
+.link_site {
+  font-size: 80%;
+  color: #315c23;
+  font-weight: 700;
+}
+
+.link_site:hover {
+  font-weight: 800;
+  text-decoration: none;
+  transition: 2;
+  color: #000000;
+}
+
+.alert dl,
+.alert ol,
+.alert ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/*
+Largura máxima das tabelas para não ficar mal formatada
+*/
+table td {
+  max-width: 500px;
+}
+
+.page-link {
+  background-color: #f8fff8 !important;
+  border-color: #007834 !important;
+  font-weight: 400 !important;
+}
+
+.page-link:hover {
+  background-color: #b6fcb6 !important;
+  transition: 2 !important;
+  color: #0d5131 !important;
+}
+
+@media only screen and (max-device-width: 767px) {
+  .botoes {
+    margin-top: 3%;
+  }
+  table td {
+    max-width: 60px !important;
+    font-size: 0.8rem !important;
+  }
+}
+
+@media only screen and (max-device-width: 1024px) {
+  table td {
+    max-width: 100px !important;
+    font-size: 0.9rem !important;
+  }
+
+  .botoes {
+    float: left !important;
+  }
+}

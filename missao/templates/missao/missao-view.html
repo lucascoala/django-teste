@@ -1,0 +1,9 @@
+{% extends 'paginas/modelo.html' %}
+
+{% block conteudo %}
+<h2>Detalhes da Missão</h2>
+<p><strong>Nome do Missionário:</strong> {{ object.nome_missionario }}</p>
+<p><strong>Local:</strong> {{ object.local }}</p>
+<p><strong>Valor Aplicado:</strong> {{ object.valor_aplicado }}</p>
+<a href="{% url 'listar-missoes' %}">Voltar</a>
+{% endblock %}

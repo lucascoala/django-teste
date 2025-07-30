@@ -1,0 +1,17 @@
+{% extends 'paginas/modelo.html' %}
+
+{% block titulo %}
+<title>Excluir Missão</title>
+{% endblock %}
+
+{% block conteudo %}
+<div class="container mt-5">
+    <h2>Excluir Missão</h2>
+    <p>Tem certeza de que deseja excluir a missão "{{ object.nome_missionario }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Excluir</button>
+        <a href="{% url 'listar-missoes' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'paginas/modelo.html' %}
+
+{% load static %}
+
+{% block conteudo %}
+
+<form action="?" method="GET">
+    <div class="row">
+        <div class="col-lg-5 col-md-12 col-sm-12">
+            <h2 style="font-weight: 700;">Missões</h2>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <input type="text" name="local" id="local" value="{{ request.GET.local }}" class="form-control" placeholder="Filtrar por local">
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <a href="{% url 'cadastrar-missao' %}" class="btn btn-success float-right mr-2 botoes">Adicionar</a>
+            <a href="{% url 'listar-missoes' %}" class="btn btn-secondary float-right mr-2 botoes">Limpar</a>
+            <button type="submit" class="btn btn-primary d-inline float-right mr-2 botoes">Filtrar</button>
+        </div>
+    </div>
+</form>
+
+<hr style="margin-bottom: 5%;">
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome do Missionário</th>
+                <th>Local</th>
+                <th>Valor Aplicado</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for missao in object_list %}
+            <tr>
+                <td>{{ missao.nome_missionario }}</td>
+                <td>{{ missao.local }}</td>
+                <td>{{ missao.valor_aplicado }}</td>
+                <td>
+                    <a href="{% url 'editar-missao' missao.pk %}" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="{% url 'excluir-missao' missao.pk %}" class="btn btn-danger btn-sm">Excluir</a>
+                    <a href="{% url 'ver-missao' missao.pk %}" class="btn btn-info btn-sm">Ver</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

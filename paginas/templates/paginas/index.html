@@ -1,0 +1,135 @@
+{% extends 'paginas/modelo.html' %}
+
+{% block conteudo %}
+<h5 style="font-weight: 700;">Bem-vindo(a) ao Sistema Integrado da Igreja Presbiteriana do Primavera!</h5>
+<div class="alert alert-info" role="alert">
+    <p><strong>Proteção de Dados (LGPD):</strong> Valorizamos sua privacidade e segurança. Por favor, consulte nossa <a href="{% url 'politica-privacidade' %}" class="alert-link">Política de Privacidade</a> e <a href="{% url 'termos-uso' %}" class="alert-link">Termos de Uso</a>. Para atualizar seu consentimento, acesse <a href="{% url 'consentimento' %}" class="alert-link">aqui</a>.</p>
+</div>
+<hr style="margin-bottom: 5%;">
+
+<div class="card-deck">
+    <div class="card">
+        <div class="card-header text-center">
+            <h5 style="font-weight: 700;">Membros</h5>
+        </div>
+        <div class="card-body">
+            <p class="card-text text-justify">Tenha acesso às informações dos membros registrados no sistema.</p>
+            <div class="text-center">
+                <a href="{% url 'listar-membros' %}" class="btn btn-secondary botoes mt-2" title="Visualizar membros">Visualizar</a>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header text-center">
+            <h5 style="font-weight: 700;">Celulas</h5>
+        </div>
+        <div class="card-body">
+            <p class="card-text text-justify">Tenha acesso às informações das celulas registradas no sistema.</p>
+            <div class="text-center">
+                <a href="{% url 'listar-celulas' %}" class="btn btn-secondary botoes mt-2" title="Visualizar celulas">Visualizar</a>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header text-center">
+            <h5 style="font-weight: 700;">Visitantes</h5>
+        </div>
+        <div class="card-body">
+            <p class="card-text text-justify">Tenha acesso às informações dos visitantes registrados no sistema.</p>
+            <div class="text-center">
+                <a href="{% url 'listar-visitantes' %}" class="btn btn-secondary botoes mt-2" title="Visualizar visitantes">Visualizar</a>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header text-center">
+            <h5 style="font-weight: 700%;">Financeiro</h5>
+        </div>
+        <div class="card-body">
+            <p class="card-text text-justify">Tenha acesso às informações do financeiro registrado no sistema.</p>
+            <div class="text-center">
+                <a href="{% url 'paginaInicial-contribuicoes' %}" class="btn btn-secondary botoes mt-2" title="Visualizar contribuições">Contribuições</a>
+                <a href="{% url 'listar-despesas' %}" class="btn btn-secondary botoes mt-2" title="Visualizar despesas">Despesas</a>
+                <a href="{% url 'panorama-financeiro' %}" class="btn btn-secondary botoes mt-2" title="Visualizar panorama">Panorama</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="margin-bottom:3%"></div>
+<div class="card-deck">
+    <div class="card">
+        <div class="card-header text-center">
+            <h5 style="font-weight: 700;">Aniversários</h5>
+        </div>
+        <div class="card-body">
+            <p class="card-text text-justify">Tenha acesso aos aniversários dos membros registrados no sistema.</p>
+            <div class="text-center">
+                <a href="{% url 'dashboard-membros' %}" class="btn btn-secondary botoes mt-2" title="Visualizar aniversários">Visualizar</a>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header text-center">
+            <h5 style="font-weight: 700;">Status de Acesso</h5>
+        </div>
+        <div class="card-body">
+            <p class="card-text text-justify">Verifique seu status de acesso ao sistema e gerencie seus consentimentos.</p>
+            <div class="text-center">
+                {% if user.is_authenticated %}
+                <span class="btn btn-success mt-2 disabled"><i class="fa fa-check-circle" aria-hidden="true"></i> Conectado</span>
+                {% else %}
+                <span class="btn btn-danger mt-2 disabled"><i class="fa fa-times-circle" aria-hidden="true"></i> Desconectado</span>
+                {% endif %}
+                <a href="{% url 'consentimento' %}" class="btn btn-secondary botoes mt-2" title="Gerenciar consentimentos">Consentimentos</a>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header text-center">
+            <h5 style="font-weight: 700;">Matriz</h5>
+        </div>
+        <div class="card-body">
+            <p class="card-text text-justify">Tenha acesso às informações das matrizes registradas no sistema.</p>
+            <div class="text-center">
+                <a href="{% url 'listar-matrizGUT' %}" class="btn btn-secondary botoes mr-1 mt-2" title="Visualizar GUT">GUT</a>
+                <a href="{% url 'listar-matriz5W2H' %}" class="btn btn-secondary botoes mt-2" title="Visualizar 5W2H">5W2H</a>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header text-center">
+            <h5 style="font-weight: 700;">Reuniões</h5>
+        </div>
+        <div class="card-body">
+            <p class="card-text text-justify">Tenha acesso às informações das reuniões registradas no sistema.</p>
+            <div class="text-center">
+                <a href="{% url 'listar-reuniaoconselho' %}" class="btn btn-secondary botoes mr-1 mt-2" title="Visualizar conselho">Conselho</a>
+                <a href="{% url 'listar-reuniaodiaconos' %}" class="btn btn-secondary botoes mt-2" title="Visualizar diáconos">Diáconos</a>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header text-center">
+            <h5 style="font-weight: 700;">Missões</h5>
+        </div>
+        <div class="card-body">
+            <p class="card-text text-justify">Tenha acesso às informações das missões registradas no sistema.</p>
+            <div class="text-center">
+                <a href="{% url 'listar-missoes' %}" class="btn btn-secondary botoes mt-2" title="Visualizar missões">Visualizar</a>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header text-center">
+            <h5 style="font-weight: 700;">Salas</h5>
+        </div>
+        <div class="card-body">
+            <p class="card-text text-justify">Tenha acesso às informações das salas registradas no sistema.</p>
+            <div class="text-center">
+                <a href="{% url 'listar-salas' %}" class="btn btn-secondary botoes mt-2" title="Visualizar salas">Visualizar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

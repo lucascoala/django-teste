@@ -1,0 +1,54 @@
+services:
+  app:
+    platform: linux/amd64
+    image: serjaobatista/mysite:latest # Você pode substituir por sua imagem personalizada ou "build" se tiver um Dockerfile
+    container_name: app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: 
+      - .env
+    ports:
+      - "8000:8000"  # Mapeia a porta local 80 para a porta 8000 do container
+    depends_on:
+      - db
+    volumes:
+      - .:/app  # Monte o diretório atual como volume no container
+    command: /entrypoint.sh
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - default
+
+  db:
+    #platform: linux/amd64
+    image: postgres:15
+    container_name: db
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    volumes:
+      - pgdata:/var/lib/postgresql/data  # Volume para persistir dados do banco
+    ports:
+      - "5432:5432"  # Mapeia a porta local 3306 para a porta 3306 do container
+    restart: unless-stopped
+    networks:
+      - default
+
+volumes:
+  pgdata:
+    name: pgdata_mysite
+
+networks:
+  default:
+    name: mysite_net

@@ -1,0 +1,96 @@
+{% extends 'paginas/modelo.html' %}
+{% load static %}
+
+{% block conteudo %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-lg mt-3">
+                <div class="card-header">
+                    <h3 class="text-center font-weight-bold my-4">{{ titulo }}</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="form-group">
+                            {{ form.username.label_tag }}
+                            {{ form.username }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.first_name.label_tag }}
+                            {{ form.first_name }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.password1.label_tag }}
+                            {{ form.password1 }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.password2.label_tag }}
+                            {{ form.password2 }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.grupo.label_tag }}
+                            {{ form.grupo }}
+                        </div>
+
+                        <div class="form-group">
+                            <h4>Permissões de Acesso</h4>
+                            <div class="form-check">
+                                {{ form.acesso_celulas }}
+                                {{ form.acesso_celulas.label_tag }}
+                            </div>
+                            <div class="form-check">
+                                {{ form.acesso_visitantes }}
+                                {{ form.acesso_visitantes.label_tag }}
+                            </div>
+                            <div class="form-check">
+                                {{ form.acesso_membros }}
+                                {{ form.acesso_membros.label_tag }}
+                            </div>
+                            <div class="form-check">
+                                {{ form.acesso_financeiro }}
+                                {{ form.acesso_financeiro.label_tag }}
+                            </div>
+                            <div class="form-check">
+                                {{ form.acesso_salas }}
+                                {{ form.acesso_salas.label_tag }}
+                            </div>
+                            <div class="form-check">
+                                {{ form.acesso_reunioes }}
+                                {{ form.acesso_reunioes.label_tag }}
+                            </div>
+                            <div class="form-check">
+                                {{ form.acesso_matriz }}
+                                {{ form.acesso_matriz.label_tag }}
+                            </div>
+                            <div class="form-check">
+                                {{ form.acesso_missao }}
+                                {{ form.acesso_missao.label_tag }}
+                            </div>
+                            <div class="form-check">
+                                {{ form.acesso_usuarios }}
+                                {{ form.acesso_usuarios.label_tag }}
+                            </div>
+                            <div class="form-check">
+                                {{ form.acesso_despesas }}
+                                {{ form.acesso_despesas.label_tag }}
+                            </div>
+                            <div class="form-check">
+                                {{ form.acesso_contribuicoes }}
+                                {{ form.acesso_contribuicoes.label_tag }}
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">{{ botao }}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

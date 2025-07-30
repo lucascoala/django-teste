@@ -1,0 +1,179 @@
+{% extends 'paginas/modelo.html' %}
+{% load static %}
+
+{% block conteudo %}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h4 class="card-title mb-0">Despesas</h4>
+                </div>
+                <div class="col text-right">
+                    <a href="{% url 'cadastrar-despesas' %}" class="btn btn-primary">
+                        <i class="fa fa-plus"></i> Nova Despesa
+                    </a>
+                    <a href="{% url 'relatorio-despesas' %}" class="btn btn-info ml-2">
+                        <i class="fa fa-file-text"></i> Relatórios
+                    </a>
+                    <a href="{% url 'panorama-financeiro' %}" class="btn btn-success ml-2">
+                        <i class="fa fa-chart-line"></i> Panorama Financeiro
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card-body">
+            <!-- Filtros -->
+            <form method="get" class="mb-4">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Mês</label>
+                            <select name="mes" class="form-control">
+                                <option value="">Todos</option>
+                                {% for i in "123456789101112"|make_list %}
+                                <option value="{{ i }}" {% if request.GET.mes == i %}selected{% endif %}>
+                                    {{ i }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Ano</label>
+                            <select name="ano" class="form-control">
+                                <option value="">Todos</option>
+                                {% for i in "543210"|make_list %}
+                                {% with year=current_year|add:"-"|add:i %}
+                                <option value="{{ year }}" {% if request.GET.ano == year|stringformat:"i" %}selected{% endif %}>
+                                    {{ year }}
+                                </option>
+                                {% endwith %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select name="status" class="form-control">
+                                <option value="">Todos</option>
+                                <option value="Pendente" {% if request.GET.status == 'Pendente' %}selected{% endif %}>Pendente</option>
+                                <option value="Pago" {% if request.GET.status == 'Pago' %}selected{% endif %}>Pago</option>
+                                <option value="Atrasado" {% if request.GET.status == 'Atrasado' %}selected{% endif %}>Atrasado</option>
+                                <option value="Cancelado" {% if request.GET.status == 'Cancelado' %}selected{% endif %}>Cancelado</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-search"></i> Filtrar
+                        </button>
+                        <a href="{% url 'listar-despesas' %}" class="btn btn-secondary ml-2">
+                            <i class="fa fa-refresh"></i> Limpar
+                        </a>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Resumo -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="card bg-info text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Total</h5>
+                            <h3 class="card-text">R$ {{ total_despesas|floatformat:2 }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Pagas</h5>
+                            <h3 class="card-text">R$ {{ total_pagas|floatformat:2 }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-warning text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Pendentes</h5>
+                            <h3 class="card-text">R$ {{ total_pendentes|floatformat:2 }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lista -->
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Descrição</th>
+                            <th>Valor</th>
+                            <th>Vencimento</th>
+                            <th>Categoria</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for despesa in object_list %}
+                        <tr>
+                            <td>{{ despesa.descricao }}</td>
+                            <td>R$ {{ despesa.valor|floatformat:2 }}</td>
+                            <td>{{ despesa.data_vencimento }}</td>
+                            <td>{{ despesa.categoria }}</td>
+                            <td>
+                                <span class="badge badge-{% if despesa.status == 'Pago' %}success{% elif despesa.status == 'Pendente' %}warning{% elif despesa.status == 'Atrasado' %}danger{% else %}secondary{% endif %}">
+                                    {{ despesa.status }}
+                                </span>
+                            </td>
+                            <td>
+                                <a href="{% url 'editar-despesas' despesa.pk %}" class="btn btn-sm btn-primary">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <a href="{% url 'excluir-despesas' despesa.pk %}" class="btn btn-sm btn-danger">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center">Nenhuma despesa encontrada.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Paginação -->
+            {% if is_paginated %}
+            <nav aria-label="Navegação de página">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                    </li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                    <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Próxima</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

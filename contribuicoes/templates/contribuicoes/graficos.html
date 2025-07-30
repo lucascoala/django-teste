@@ -1,0 +1,88 @@
+{% extends 'paginas/modelo.html' %}
+
+{% load static %}
+
+{% block conteudo %}
+<div class="row">
+    <div class="col-lg-12">
+        <h2 style="font-weight: 700;">Análise de Contribuições</h2>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <!-- Gráfico de contribuições por mês -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <canvas id="graficoContribuicoesMes"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Gráfico de total por tipo de contribuição -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <canvas id="graficoTipoContribuicao"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Importar Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Dados que virão do backend (você precisará passar via context na view)
+    const dadosMensais = {{ dados_mensais|safe }};
+    const dadosTipos = {{ dados_tipos|safe }};
+
+    // Gráfico de contribuições por mês
+    new Chart(document.getElementById('graficoContribuicoesMes'), {
+        type: 'line',
+        data: {
+            labels: dadosMensais.labels,
+            datasets: [{
+                label: 'Valor Total de Contribuições',
+                data: dadosMensais.valores,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Contribuições por Mês'
+                }
+            }
+        }
+    });
+
+    // Gráfico de tipos de contribuição
+    new Chart(document.getElementById('graficoTipoContribuicao'), {
+        type: 'pie',
+        data: {
+            labels: dadosTipos.labels,
+            datasets: [{
+                data: dadosTipos.valores,
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Distribuição por Tipo de Contribuição'
+                }
+            }
+        }
+    });
+</script>
+{% endblock %} 

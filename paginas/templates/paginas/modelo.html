@@ -1,0 +1,231 @@
+{% load static %}
+
+<!doctype html>
+<html lang="pt-br" class="h-100">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {% block titulo %}
+    <title>Sistema IPP</title>
+    {% endblock %}
+
+    <!-- Ícone do favicon -->
+    <!--  <link href="{% static 'img/favicon.gif' %}" rel="shortcut icon" type="image/x-icon" /> -->
+
+    <!-- Importação do Bootstrap 4 e do Font awesome -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+
+    <!-- CSS adicional -->
+    <link href="{% static 'css/ifpr.css' %}" rel="stylesheet">
+
+    <!-- Importação do Datatables -->
+    <link href="https://cdn.datatables.net/v/bs4/dt-1.13.5/datatables.min.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="{% static 'img/IconeIPB.png' %}">
+
+    <!-- Bloco destinado aos estilos para cada página -->
+    {% block styles %}
+    {% endblock %}
+
+</head>
+
+<body class="d-flex flex-column h-100">
+    <main role="main" class="flex-shrink-0">
+
+        {% block logo %}
+        <!-- <div class="container-fluid bg-white">
+            <div class="container border-bottom border-light p-3">
+                <img src="{% static 'img/ifpr-logo.png' %}" alt="" style="max-height: 65px;" class="img-fluid">
+            </div>
+        </div> -->
+        {% endblock %}
+
+        <!-- Bloco com o menu principal -->
+        {% block menu %}
+        <nav class="navbar navbar-expand-lg navbar-dark bg-menu text-menu font-80 shadow">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'index' %}">
+                    <img src="{% static 'img/NovaLogoIPB.png' %}" height="60" alt="">
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav mr-auto">
+                        {% if user.is_authenticated %}
+                            {% if user.perfil.acesso_membros or user.is_superuser %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'listar-membros' %}">Membros</a>
+                            </li>
+                            {% endif %}
+                            
+                            {% if user.is_superuser %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'listar-usuarios' %}">Usuários</a>
+                            </li>
+                            {% endif %}
+
+                            {% if user.is_authenticated and user.perfil %}
+                                {% if user.perfil.acesso_missao or user.is_superuser %}
+                                 <li class="nav-item">
+                                     <a class="nav-link" href="{% url 'listar-missoes' %}">Missões</a>
+                                 </li>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if user.perfil.acesso_celulas or user.is_superuser %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'listar-celulas' %}">Células</a>
+                            </li>
+                            {% endif %}
+
+                            {% if user.perfil.acesso_salas or user.is_superuser %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'listar-salas' %}">Salas</a>
+                            </li>
+                            {% endif %}
+
+                            {% if user.perfil.acesso_financeiro or user.is_superuser %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="financeiroDropdown" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Financeiro
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="financeiroDropdown">
+                                    <a class="dropdown-item" href="{% url 'paginaInicial-contribuicoes' %}">Contribuições</a>
+                                    <a class="dropdown-item" href="{% url 'listar-despesas' %}">Despesas</a>
+                                    <a class="dropdown-item" href="{% url 'panorama-financeiro' %}">Panorama</a>
+                                </div>
+                            </li>
+                            {% endif %}
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-plus-square" aria-hidden="true"></i>
+                                    Cadastros
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="{% url 'cadastrar-membros' %}">Membro</a>
+                                    <a class="dropdown-item" href="{% url 'cadastrar-celulas' %}">Celula</a>
+                                    <a class="dropdown-item" href="{% url 'cadastrar-reuniaoconselho' %}">Reunião do conselho</a>
+                                    <a class="dropdown-item" href="{% url 'cadastrar-reuniaodiaconos' %}">Reunião dos diaconos</a>
+                                    <a class="dropdown-item" href="{% url 'cadastrar-contribuicoes' %}">Contribuição</a>
+                                    <a class="dropdown-item" href="{% url 'cadastrar-despesas' %}">Despesa</a>
+                                    <a class="dropdown-item" href="{% url 'cadastrar-visitantes' %}">Visitantes</a>
+                                    <a class="dropdown-item" href="{% url 'listar-matrizGUT' %}">MatrizGUT</a>
+                                    <a class="dropdown-item" href="{% url 'listar-matriz5W2H' %}">Matriz5W2H</a>
+                                    <a class="dropdown-item" href="{% url 'listar-missoes' %}">Missões</a>
+                                </div>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Reuniões
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="{% url 'listar-reuniaoconselho' %}">Reunião do conselho</a>
+                                    <a class="dropdown-item" href="{% url 'listar-reuniaodiaconos' %}">Reunião dos diáconos</a>
+                                </div>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Matriz
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="{% url 'listar-matrizGUT' %}">MatrizGUT</a>
+                                    <a class="dropdown-item" href="{% url 'listar-matriz5W2H' %}">Matriz5W2H</a>
+                                </div>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'listar-visitantes' %}">Visitantes</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLink"
+                                role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                <span id="username">{{ request.user }}</span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="{% url 'alterar-senha' %}">
+                                    <i class="fa fa-key"></i> Alterar Senha
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    {% if user.is_authenticated %}
+                                    <i class="fa fa-check-circle text-success" aria-hidden="true"></i>
+                                    Conectado
+                                    {% else %}
+                                    <i class="fa fa-times-circle text-danger" aria-hidden="true"></i>
+                                    Desconectado
+                                    {% endif %}
+                                </a>
+                                <a class="dropdown-item" href="{% url 'registrar' %}">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                    Registrar
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="dropdown-item" style="background: none; border: none; cursor: pointer; width: 100%; text-align: left;">
+                                        <i class="fa fa-sign-out" aria-hidden="true"></i> Sair
+                                    </button>
+                                </form>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        {% endblock %}
+
+        <!-- Bloco de conteúdo -->
+        <div class="container py-5">
+            {% block conteudo %}
+            <h3>Página inicial</h3>
+            {% endblock %}
+        </div>
+
+    </main>
+
+    <footer class="mt-auto">
+        <!-- Rodapé -->
+        {% block rodape %}
+        <div class="container-fluid text-center rodape">
+            <div class="row">
+                <div class="col-md-4 mx-auto text-center">
+                    <img src="{% static 'img/IconeIPB.png' %}" height="28" alt="Icone IPB" style="margin-top: 3%;">
+                    <p class="texto_rodape">
+                        <span><strong>2023 © IPP - Todos os direitos reservados.</strong></span><br>
+                        <span>Feito com <i class="fa fa-heart"></i> por <a class="link_site"
+                                href="https://lttmarketing.com.br/" target="_blank">LTT Marketing</a></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+    </footer>
+
+    <!-- Importação do JS -->
+    <script src="{% static 'js/jquery-3.7.0.min.js' %}"></script>
+    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs4/dt-1.13.5/datatables.min.js"></script>
+
+    <!-- Bloco destinado aos scripts para cada página -->
+    {% block scripts %}
+    {% endblock %}
+
+</body>
+</html>

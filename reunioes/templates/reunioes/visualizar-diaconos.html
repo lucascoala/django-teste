@@ -1,0 +1,34 @@
+{% extends 'paginas/modelo.html' %}
+
+{% load static %}
+
+{% block conteudo %}
+    <h2>Dados da reunião dos diáconos</h2>
+    <p>Mais detalhes sobre a reunião dos diáconos do dia <strong>{{reuniaodiaconos.data}}</strong>.</p>
+    <hr>
+
+    <form>
+            <div class="form-group">
+              <label for="formGroupExampleInput">Pauta</label>
+              <input type="text" class="form-control" value="{{reuniaodiaconos.pauta}}" readonly>
+            </div>
+            <div class="form-group">
+              <label for="formGroupExampleInput2">Data</label>
+              <input type="data" class="form-control" id="formGroupExampleInput2" value="{{reuniaodiaconos.data}}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput3">Local</label>
+                <input type="text" class="form-control" id="formGroupExampleInput3" value="{{reuniaodiaconos.local}}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="inputForm2">Diáconos</label>
+                <input type="data" class="form-control" id="inputForm2" value="{{reuniaodiaconos.diaconos}}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput2">Relatório</label>
+                <input type="text-area" class="form-control" id="formGroupExampleInput2" value="{{reuniaodiaconos.relatorio}}" readonly>
+            </div>
+        <a href="{% url 'listar-reuniaodiaconos' %}" class="btn btn-danger float-right">Voltar</a>
+    </form>
+
+{% endblock %}

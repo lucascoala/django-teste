@@ -1,0 +1,104 @@
+{% extends 'paginas/modelo.html' %}
+{% load static %}
+
+{% block titulo %}
+    <title>Registro de Sala</title>
+{% endblock %}
+
+{% block styles %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
+
+{% block conteudo %}
+<div class="container">
+    <h3>Registro de Sala</h3>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_professor">Professor:</label>
+            {{ form.professor }}
+        </div>
+        <div class="form-group">
+            <label for="id_data">Data:</label>
+            {{ form.data }}
+        </div>
+        <div class="form-group">
+            <label for="id_classe">Classe:</label>
+            {{ form.classe }}
+        </div>
+        <div class="form-group">
+            <label for="id_licao_dada">Lição Dada:</label>
+            {{ form.licao_dada }}
+        </div>
+        <div class="form-group">
+            <label for="alunos_select">Selecionar Alunos:</label>
+            <select id="alunos_select" class="form-control" multiple="multiple" style="width: 100%">
+            </select>
+        </div>
+        <div id="alunos_presentes" class="mt-3">
+            <!-- Aqui serão listados os alunos selecionados -->
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Salvar</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#alunos_select').select2({
+        ajax: {
+            url: '{% url "buscar-alunos" %}',
+            dataType: 'json',
+            delay: 250,
+            data: function(params) {
+                return {
+                    search: params.term
+                };
+            },
+            processResults: function(data) {
+                return {
+                    results: data.results
+                };
+            },
+            cache: true
+        },
+        minimumInputLength: 2,
+        placeholder: 'Buscar alunos...',
+        language: {
+            inputTooShort: function() {
+                return 'Digite pelo menos 2 caracteres para buscar';
+            },
+            noResults: function() {
+                return 'Nenhum aluno encontrado';
+            },
+            searching: function() {
+                return 'Buscando...';
+            }
+        }
+    });
+
+    $('#alunos_select').on('select2:select', function(e) {
+        var data = e.params.data;
+        var alunoHtml = `
+            <div class="aluno-item" data-id="${data.id}">
+                <input type="hidden" name="alunos[]" value="${data.id}">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="presenca_${data.id}" id="presenca_${data.id}" checked>
+                    <label class="form-check-label" for="presenca_${data.id}">
+                        ${data.text}
+                    </label>
+                </div>
+            </div>
+        `;
+        $('#alunos_presentes').append(alunoHtml);
+    });
+
+    $('#alunos_select').on('select2:unselect', function(e) {
+        var data = e.params.data;
+        $('#alunos_presentes').find(`[data-id="${data.id}"]`).remove();
+    });
+});
+</script>
+{% endblock %}

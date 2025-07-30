@@ -1,0 +1,135 @@
+{% extends 'paginas/modelo.html' %}
+{% load static %}
+
+{% block conteudo %}
+<div class="container">
+    <!-- Botões de ação -->
+    <div class="row mb-3">
+        <div class="col">
+            <a href="{% url 'gerar-pdf-usuarios' %}" class="btn btn-danger" target="_blank">
+                <i class="fa fa-file-pdf-o"></i> Exportar PDF
+            </a>
+            <button onclick="window.print()" class="btn btn-secondary">
+                <i class="fa fa-print"></i> Imprimir
+            </button>
+        </div>
+    </div>
+
+    <!-- Tabela de usuários -->
+    <div class="table-responsive no-print">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Usuário</th>
+                    <th>Email</th>
+                    <th>Grupo</th>
+                    <th>Permissões</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in object_list %}
+                <tr>
+                    <td>{{ usuario.username }}</td>
+                    <td>{{ usuario.email }}</td>
+                    <td>{{ usuario.groups.first.name|default:"Sem grupo" }}</td>
+                    <td>
+                        {% if usuario.perfil.acesso_membros %}Membros, {% endif %}
+                        {% if usuario.perfil.acesso_celulas %}Células, {% endif %}
+                        {% if usuario.perfil.acesso_salas %}Salas, {% endif %}
+                        {% if usuario.perfil.acesso_financeiro %}Financeiro, {% endif %}
+                        {% if usuario.perfil.acesso_visitantes %}Visitantes, {% endif %}
+                        {% if usuario.perfil.acesso_reunioes %}Reuniões, {% endif %}
+                        {% if usuario.perfil.acesso_matriz %}Matriz, {% endif %}
+                        {% if usuario.perfil.acesso_missao %}Missões{% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Versão otimizada para impressão -->
+<div class="print-only" style="display: none;">
+    <div class="text-center mb-4">
+        <h2>Relatório de Usuários</h2>
+        <p>Data: {% now "d/m/Y" %}</p>
+    </div>
+    
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Usuário</th>
+                <th>Email</th>
+                <th>Grupo</th>
+                <th>Permissões</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuario in object_list %}
+            <tr>
+                <td>{{ usuario.username }}</td>
+                <td>{{ usuario.email }}</td>
+                <td>{{ usuario.groups.first.name|default:"Sem grupo" }}</td>
+                <td>
+                    {% if usuario.perfil.acesso_membros %}Membros, {% endif %}
+                    {% if usuario.perfil.acesso_celulas %}Células, {% endif %}
+                    {% if usuario.perfil.acesso_salas %}Salas, {% endif %}
+                    {% if usuario.perfil.acesso_financeiro %}Financeiro, {% endif %}
+                    {% if usuario.perfil.acesso_visitantes %}Visitantes, {% endif %}
+                    {% if usuario.perfil.acesso_reunioes %}Reuniões, {% endif %}
+                    {% if usuario.perfil.acesso_matriz %}Matriz, {% endif %}
+                    {% if usuario.perfil.acesso_missao %}Missões{% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+
+
+<!-- Estilos específicos para impressão -->
+<style media="print">
+    @page {
+        size: A4;
+        margin: 2cm;
+    }
+    
+    .no-print {
+        display: none !important;
+    }
+    
+    .print-only {
+        display: block !important;
+    }
+    
+    body {
+        font-size: 12pt;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    
+    th, td {
+        padding: 8px;
+        border: 1px solid #000;
+    }
+    
+    th {
+        background-color: #f2f2f2;
+    }
+    
+    .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        font-size: 10pt;
+    }
+</style>
+{% endblock %}

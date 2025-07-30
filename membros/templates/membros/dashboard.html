@@ -1,0 +1,141 @@
+{% extends 'paginas/modelo.html' %}
+{% load static %}
+
+{% block conteudo %}
+<div class="container">
+    <h2>Dashboard de Membros</h2>
+    
+    <!-- Estatísticas Gerais -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total de Membros</h5>
+                    <h2 class="card-text">{{ total_membros }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Membros Ativos</h5>
+                    <h2 class="card-text">{{ membros_ativos }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Líderes</h5>
+                    <h2 class="card-text">{{ total_lideres }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Novos este Mês</h5>
+                    <h2 class="card-text">{{ novos_membros }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Aniversariantes do Mês -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fa fa-birthday-cake mr-2"></i>Aniversariantes do Mês</h5>
+                </div>
+                <div class="card-body">
+                    {% if aniversariantes %}
+                        <ul class="list-group list-group-flush">
+                        {% for membro in aniversariantes %}
+                            {% with dia_atual=hoje.day %}
+                            {% with dia_aniversario=membro.data_nascimento.day %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {{ membro.nome }}
+                                {% with dia_aniversario=membro.data_nascimento.day %}
+                                {% if dia_aniversario == dia_atual %}
+                                    <span class="badge badge-success ml-2">Hoje!</span>
+                                {% elif dia_aniversario > dia_atual and dia_aniversario <= dia_atual|add:"7" %}
+                                    <span class="badge badge-warning ml-2">Em breve</span>
+                                {% endif %}
+                                </div>
+                                <span class="badge badge-primary badge-pill">{{ membro.data_nascimento|date:"d/m/Y" }}</span>
+                            </li>
+                            {% endwith %}
+                            {% endwith %}
+                        {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted text-center py-3"><i class="fa fa-info-circle mr-2"></i>Nenhum aniversariante este mês.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Aniversários de Casamento -->
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fa fa-heart mr-2"></i>Aniversários de Casamento do Mês</h5>
+                </div>
+                <div class="card-body">
+                    {% if aniversarios_casamento %}
+                        <ul class="list-group list-group-flush">
+                        {% for membro in aniversarios_casamento %}
+                            {% with dia_atual=hoje.day %}
+                            {% with dia_aniversario=membro.data_casamento.day %}
+                            <li class="list-group-item {% if dia_aniversario == dia_atual %}bg-light border-info{% elif dia_aniversario > dia_atual and dia_aniversario <= dia_atual|add:"7" %}bg-light{% endif %}">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>{{ membro.nome }}</strong>
+                                        {% if dia_aniversario == dia_atual %}
+                                            <span class="badge badge-info ml-2">Hoje!</span>
+                                        {% elif dia_aniversario > dia_atual and dia_aniversario <= dia_atual|add:"7" %}
+                                            <span class="badge badge-warning ml-2">Em breve</span>
+                                        {% endif %}
+                                    </div>
+                                    <span class="badge badge-primary badge-pill">{{ membro.data_casamento|date:"d/m/y" }}</span>
+                                </div>
+                            </li>
+                            {% endwith %}
+                            {% endwith %}
+                        {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted text-center py-3"><i class="fa fa-info-circle mr-2"></i>Nenhum aniversário de casamento este mês.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Distribuição por Faixa Etária -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Distribuição por Faixa Etária</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for faixa, total in faixa_etaria.items %}
+                        <div class="col-md-3 mb-3">
+                            <div class="card bg-light">
+                                <div class="card-body text-center">
+                                    <h6 class="card-title">{{ faixa }}</h6>
+                                    <p class="card-text h4">{{ total }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

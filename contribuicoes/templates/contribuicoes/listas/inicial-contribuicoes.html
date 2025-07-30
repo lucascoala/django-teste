@@ -1,0 +1,91 @@
+{% extends 'paginas/modelo.html' %}
+
+{% load static %}
+
+{% block conteudo %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h3>Gerenciamento de Contribuições</h3>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <!-- Botões de ação -->
+        <div class="col-lg-3 col-md-6 mb-4">
+            <a href="{% url 'cadastrar-contribuicoes' %}" class="btn btn-primary btn-block">
+                <i class="fas fa-plus-circle"></i> Nova Contribuição
+            </a>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+            <a href="{% url 'listar-contribuicoes' %}" class="btn btn-info btn-block">
+                <i class="fas fa-list"></i> Listar Contribuições
+            </a>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+            <a href="{% url 'contribuicoes-graficos' %}" class="btn btn-success btn-block">
+                <i class="fas fa-chart-bar"></i> Visualizar Gráficos
+            </a>
+        </div>
+    </div>
+
+    <!-- Card de Relatórios -->
+    <div class="row mt-4">
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="m-0 font-weight-bold">Relatórios</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        <a href="{% url 'relatorio-diario' %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-calendar-day"></i> Relatório Diário
+                        </a>
+                        <a href="{% url 'relatorio-mensal' %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-calendar-alt"></i> Relatório Mensal
+                        </a>
+                        <a href="{% url 'relatorio-anual' %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-calendar"></i> Relatório Anual
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card de Resumo -->
+        <div class="col-lg-8 col-md-6 mb-4">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h5 class="m-0 font-weight-bold">Resumo Financeiro</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <h6>Total Diário</h6>
+                                <h4>R$ {{ total_diario|default:"0,00" }}</h4>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <h6>Total Mensal</h6>
+                                <h4>R$ {{ total_mensal|default:"0,00" }}</h4>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <h6>Total Anual</h6>
+                                <h4>R$ {{ total_anual|default:"0,00" }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

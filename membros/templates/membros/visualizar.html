@@ -1,0 +1,67 @@
+{% extends 'paginas/modelo.html' %}
+
+{% load static %}
+
+{% block conteudo %}
+    <h2>Dados do membro</h2>
+    <p>Mais detalhes sobre <strong>{{membro.nome}}</strong>.</p>
+    <hr>
+
+    <form>
+            <div class="form-group">
+              <label for="formGroupExampleInput">Nome</label>
+              <input type="text" class="form-control" value="{{membro.nome}}" readonly>
+            </div>
+            <div class="form-group">
+              <label for="formGroupExampleInput2">Cargo</label>
+              <input type="text" class="form-control" id="formGroupExampleInput2" value="{{ membro.get_cargo_display }}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput3">Telefone</label>
+                <input type="text" class="form-control" id="formGroupExampleInput3" value="{{ membro.telefone }}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="inputForm2">Email</label>
+                <input type="email" class="form-control" id="inputForm2" value="{{ membro.email }}" readonly>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputfo">Escolaridade</label>
+                    <input type="data" class="form-control" id="inputfo" value="{{ membro.escolaridade }}" readonly>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputP">Profissão</label>
+                    <input type="data" class="form-control" id="inputP" value="{{ membro.profissao }}" readonly>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputform" class="form-label">Data de nascimento</label>
+                    <input type="text" class="form-control" id="inputform" value="{{ membro.data_nascimento|date:"d/m/Y" }}" readonly>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputform">Faixa etária</label>
+                    <input type="data" class="form-control" id="inputform" value="{{ membro.faixa_etaria }}" readonly>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="inputPassword4">Data de batismo</label>
+                    <input type="data" class="form-control" id="inputPassword4" value="{{ membro.data_batismo }}" readonly>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputform">Data de recebimento</label>
+                    <input type="data" class="form-control" id="inputform" value="{{ membro.data_recebimento }}" readonly>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputform">Data de casamento</label>
+                    <input type="data" class="form-control" id="inputform" value="{{ membro.data_casamento|date:'d/m/Y' }}" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput2">Endereço</label>
+                <input type="text" class="form-control" id="formGroupExampleInput2" value="{{ membro.endereco }}" readonly>
+            </div>
+        <a href="{% url 'listar-membros' %}" class="btn btn-danger float-right">Voltar</a>
+    </form>
+
+{% endblock %}

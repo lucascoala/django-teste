@@ -1,0 +1,40 @@
+{% extends 'paginas/modelo.html' %}
+
+{% load static %}
+
+{% block conteudo %}
+    <h2>Dados do financeiro</h2>
+    <p>Mais detalhes sobre a contribuição/despesa do dia <strong>{{contribuicoes.data}}</strong>.</p>
+    <hr>
+
+    <form>
+            <div class="form-group">
+              <label for="formGroupExampleInput">Membro</label>
+              <input type="text" class="form-control" value="{{contribuicoes.membro}}" readonly>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="form3">Código da operação</label>
+                <input type="text" class="form-control" id="form3" value="{{contribuicoes.codigo}}" readonly>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="formGroupE">Tipo da transação</label>
+                <input type="text" class="form-control" id="formGroupE" value="{{contribuicoes.tipo_transferencia}}" readonly>
+              </div>          
+            </div>
+            <div class="form-group">
+              <label for="formGroupExampleInput2">Valor</label>
+              <input type="text" class="form-control" id="formGroupExampleInput2" value="{{contribuicoes.valor}}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput3">Data</label>
+                <input type="data" class="form-control" id="formGroupExampleInput3" value="{{contribuicoes.data}}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="formGroupEmpleInput2">Descrição da operação</label>
+                <input type="text-area" class="form-control" id="formGroupEmpleInput2" value="{{contribuicoes.descricao}}" readonly>
+            </div>
+        <a href="{% url 'listar-contribuicoes' %}" class="btn btn-danger float-right">Voltar</a>
+    </form>
+
+{% endblock %}

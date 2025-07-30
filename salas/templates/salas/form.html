@@ -1,0 +1,74 @@
+{% extends 'paginas/modelo.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block conteudo %}
+    <h2> {{ titulo }}</h2>
+    <p>Preencha todos os campos obrigatórios.</p>
+    <hr>
+
+    <form action="" method="POST">
+
+        {% csrf_token %}
+
+
+        {{ form|crispy }}
+
+        <a href="{% url 'listar-salas' %}" class="btn btn-danger float-left">Cancelar</a>
+        <button class="btn btn-success float-right" type="submit">{{ botao }}</button>
+        
+
+    </form>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{% static 'js/jquery.mask.min.js' %}"></script>
+
+<!-- Adiciona o CSS e JS do Select2 -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<!-- Script personalizado para o formulário de salas -->
+<script src="{% static 'js/salas-form.js' %}"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#id_data').mask('00/00/0000', {placeholder: "__/__/____"});
+        
+        // Inicializa o select2 para o campo de alunos com configurações aprimoradas
+        $('#id_alunos').select2({
+            placeholder: 'Selecione os alunos presentes na aula',
+            allowClear: true,
+            width: '100%'
+        });
+        
+        // Inicializa o select2 para o campo de classe
+        $('#id_classe').select2({
+            placeholder: 'Selecione a classe em que estará lecionando',
+            allowClear: false,
+            width: '100%'
+        });
+        
+        // Limpa a seleção de alunos em novos formulários
+        if (window.location.href.includes('adicionar')) {
+            // Limpa completamente o campo de alunos
+            $('#id_alunos').val(null).trigger('change');
+            
+            // Remove qualquer seleção prévia
+            $('#id_alunos option:selected').removeAttr('selected');
+            
+            // Reinicializa o select2
+            $('#id_alunos').select2({
+                placeholder: 'Selecione os alunos presentes na aula',
+                allowClear: true,
+                width: '100%'
+            });
+        }
+    });
+</script>
+
+{% endblock %}

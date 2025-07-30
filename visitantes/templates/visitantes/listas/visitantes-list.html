@@ -1,0 +1,86 @@
+{% extends 'paginas/modelo.html' %}
+
+{% load static %}
+
+{% block conteudo %}
+<form action="?" method="GET">
+    <div class="row">
+
+        <div class="col-lg-5 col-md-12 col-sm-12">
+            <h2 style="font-weight: 700;">Visitantes</h2>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <input type="text" name="nome" id="{{ request.GET.nome}}" value="{{ request.GET.nome}}" class="form-control"
+                placeholder="Filtrar pelo nome">
+        </div>
+        <div class="col-lg-4  col-md-6 col-sm-12">
+            <a href="{% url 'cadastrar-visitantes' %}" class="btn btn-success float-right mr-2 botoes">Adicionar</a>
+            <a href="{% url 'listar-visitantes' %}" class="btn btn-secondary float-right mr-2 botoes">Limpar</a>
+            <button type="submit" class="btn btn-primary d-inline float-right  mr-2 botoes">Filtrar</button>
+
+        </div>
+    </div>
+</form>
+
+<hr>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <tr>
+            <th>Nome</th>
+            <th>Telefone</th>
+            <th>Endereço</th>
+            <th>Data da visita</th>
+            <th>Opções</th>
+        </tr>
+        {% for visitantes in object_list %}
+        <tr>
+            <td>{{ visitantes.nome }}</td>
+            <td>{{ visitantes.telefone }}</td>
+            <td>{{ visitantes.endereco }}</td>
+            <td>{{ visitantes.data }}</td>
+            <td>
+                <a href="{% url 'visualizar-visitantes' visitantes.pk %}" class="btn btn-info btn-sm botoes"
+                    title="Detalhes"><i class="fa fa-eye icone" aria-hidden="true"></i></i></a>
+                <a href="{% url 'editar-visitantes' visitantes.pk %}" class="btn btn-warning btn-sm botoes"
+                    title="Editar"><i class="fa fa-pencil icone" aria-hidden="true"></i></a>
+                <a href="{% url 'excluir-visitantes' visitantes.pk %}" class="btn btn-danger btn-sm botoes"
+                    title="Excluir"><i class="fa fa-trash icone" aria-hidden="true"></i></a>
+            </td>
+        </tr>
+        {% empty %}
+        <td colspan="5">Nenhum visitante registrado</td>
+        {% endfor %}
+    </table>
+
+    <ul class="pagination justify-content-end">
+
+        {% if page_obj.has_previous %}
+
+        {% if request.GET.nome %}
+        <li class="page-item"><a class="page-link" href="?page=1&nome={{request.GET.nome}}">&laquo; Primeira</a></li>
+        <li class="page-item"><a class="page-link"
+                href="?page={{ page_obj.previous_page_number }}&nome={{request.GET.nome}}">Anterior</a></li>
+        {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a></li>
+        {% endif %}
+
+        {% endif %}
+
+        {% if page_obj.has_next %}
+        {% if request.GET.nome %}
+        <li class="page-item"><a class="page-link"
+                href="?page={{ page_obj.next_page_number }}&nome={{request.GET.nome}}">Próxima</a></li>
+        <li class="page-item"><a class="page-link"
+                href="?page={{ page_obj.paginator.num_pages }}&nome={{request.GET.nome}}">Última &raquo;</a></li>
+        {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Próxima</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Última &raquo;</a>
+        </li>
+        {% endif %}
+        {% endif %}
+
+    </ul>
+</div>
+
+{% endblock %}

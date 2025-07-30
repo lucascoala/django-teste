@@ -1,0 +1,67 @@
+{% extends 'paginas/modelo.html' %}
+{% load static %}
+
+{% block conteudo %}
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Lista de Usuários</h4>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped" id="tabela-usuarios">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Grupo</th>
+                    <!-- Verifica se o usuário pertence a Secretaria ou Pastor -->
+                    {% if user.groups.all %}
+                        {% for group in user.groups.all %}
+                            {% if group.name == 'Secretaria' or group.name == 'Pastor' %}
+                                <th>Ações</th>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuarios %}
+                <tr>
+                    <td>{{ usuario.username }}</td>
+                    <td>{{ usuario.email }}</td>
+                    <td>{{ usuario.groups.first.name|default:"Sem grupo" }}</td>
+                    <!-- Verifica se o usuário é superusuário ou pertence ao grupo Administradores -->
+                    {% if user.is_superuser or 'Administradores' in user.groups.all|join:', ' %}
+                    <td>
+                        <!-- Impede que o usuário delete a si mesmo -->
+                        {% if usuario != user %}
+                        <form method="post" action="{% url 'deletar-usuario' usuario.pk %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm" 
+                                    onclick="return confirm('Tem certeza que deseja deletar o usuário {{ usuario.username }}?')">
+                                <i class="fa fa-trash"></i> Deletar
+                            </button>
+                        </form>
+                        {% endif %}
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Exibe mensagens de sucesso ou erro -->
+{% if messages %}
+<div class="mt-3">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

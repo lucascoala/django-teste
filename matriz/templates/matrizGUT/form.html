@@ -1,0 +1,27 @@
+{% extends 'paginas/modelo.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block conteudo %}
+    <h2> {{ tipomatriz }}</h2>
+    <p>Preencha todos os campos obrigatórios.</p>
+    <hr>
+
+    <form action="" method="POST">
+
+        {% csrf_token %}
+
+
+        {{ form|crispy }}
+
+        <a href="{% url 'listar-matrizGUT' %}" class="btn btn-danger float-left">Cancelar</a>
+        <button class="btn btn-success float-right" type="submit">{{ botao }}</button>
+        
+
+    </form>
+
+{% endblock %}
+
+

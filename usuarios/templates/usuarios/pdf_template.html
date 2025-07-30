@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório de Usuários</title>
+    <style>
+        @page {
+            size: a4 portrait;
+            margin: 2cm;
+        }
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>Relatório de Usuários</h2>
+        <p>Data: {{ data_atual }}</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Usuário</th>
+                <th>Email</th>
+                <th>Grupo</th>
+                <th>Permissões</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for perfil in perfis %}
+            <tr>
+                <td>{{ perfil.usuario.username }}</td>
+                <td>{{ perfil.usuario.email }}</td>
+                <td>{{ perfil.usuario.groups.first.name }}</td>
+                <td>
+                    {% if perfil.acesso_membros %}Membros, {% endif %}
+                    {% if perfil.acesso_celulas %}Células, {% endif %}
+                    {% if perfil.acesso_salas %}Salas, {% endif %}
+                    {% if perfil.acesso_financeiro %}Financeiro, {% endif %}
+                    {% if perfil.acesso_visitantes %}Visitantes, {% endif %}
+                    {% if perfil.acesso_reunioes %}Reuniões, {% endif %}
+                    {% if perfil.acesso_matriz %}Matriz{% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="footer">
+        <p>Sistema IPP - Página {{ page_num }}</p>
+    </div>
+</body>
+</html> 
